@@ -3,13 +3,14 @@ const letterText = document.getElementById('mainMessage');
 const clickHint = document.getElementById('click-hint');
 const nextHint = document.getElementById('next-hint');
 const audio = document.getElementById('myAudio');
+const musicBtn = document.getElementById('music-control');
 
 let step = 0;
 let messageIndex = 0;
 
 const messages = [
     "Happy 3 years and 4 months anniversay ပါငယ်ရေ..❤️",
-    "",
+    "ဒီတစ်ခေါက်တော့ ဒီလိုညလေးကို အတူတူပြန်ပြီး ဖြတ်သန်းကြရပြီပေါ့နော်..❤️",
     "example2",
     "example3 (The End)"
 ];
@@ -83,3 +84,31 @@ function createHeart() {
 
 // Start the heart rain!
 setInterval(createHeart, 300);
+
+musicBtn.addEventListener('click', (e) => {
+    // This stops the click from opening/closing the envelope
+    e.stopPropagation(); 
+
+    if (audio.paused) {
+        audio.play().then(() => {
+            musicBtn.innerHTML = "🎵"; // Icon when playing
+            musicBtn.style.opacity = "1";
+        }).catch(err => {
+            console.log("Playback failed:", err);
+        });
+    } else {
+        audio.pause();
+        musicBtn.innerHTML = "🔇"; // Icon when muted
+        musicBtn.style.opacity = "0.6";
+    }
+});
+
+// 3. Optional: Auto-start music on first envelope click 
+// (Browsers often require a user to click something before sound plays)
+envelope.addEventListener('click', () => {
+    if (step === 0 && audio.paused) {
+        audio.play();
+        musicBtn.innerHTML = "🎵";
+    }
+    // ... rest of your existing envelope code ...
+});

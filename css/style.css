@@ -132,13 +132,22 @@ body {
 /* Heart Shape */
 .heart {
     position: fixed;
-    top: -20px; /* Start above the screen */
-    background-color: #ff4d6d; /* Romantic red/pink */
+    top: -20px;
+    background-color: #ff4d6d;
     width: 15px;
     height: 15px;
     transform: rotate(-45deg);
-    z-index: 0; /* Behind the envelope */
-    pointer-events: none; /* User can click through them */
+    /* Increase z-index to ensure they appear on mobile */
+    z-index: 1; 
+    pointer-events: none;
+}
+
+/* Ensure the body allows the hearts to fall past the bottom */
+body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .heart::before,
