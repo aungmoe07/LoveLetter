@@ -1,0 +1,191 @@
+/* --- 1. Base Setup --- */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fce4ec;
+    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Give the container space to breathe so the letter doesn't hit the top */
+.container {
+    position: relative;
+    z-index: 10;
+    margin-top: 60px; 
+}
+
+/* --- 2. Envelope Structure --- */
+.envelope-wrapper {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background-color: #ff8fa3; /* Base color */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.03);
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 110px solid #ff758f;
+    transform-origin: top;
+    transition: transform 0.4s ease, z-index 0.4s;
+    z-index: 5;
+}
+
+.front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid #ffb3c1;
+    border-right: 150px solid #ffb3c1;
+    border-bottom: 100px solid #ff99aa;
+    border-top: 100px solid transparent;
+    z-index: 4;
+}
+
+/* --- 3. The Letter (Fixed Size) --- */
+.letter {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;  /* Keeps original size */
+    height: 180px; /* Keeps original size */
+    background-color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 2;
+    transition: transform 0.6s ease-in-out;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.text {
+    text-align: center;
+}
+
+.text h3 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 24px;
+    color: #d63384;
+    margin: 0 0 10px 0;
+}
+
+.text p {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #444;
+    margin: 5px 0;
+}
+
+/* --- 4. Interactive States --- */
+
+/* Flap Opens */
+.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+/* Letter Pulls Out */
+.opened .letter {
+    /* Moves the letter up without changing width or height */
+    transform: translate(-50%, -135px); 
+    z-index: 10; /* Ensures it stays on top of the front flap */
+}
+
+/* Fix: Make sure front doesn't hide the bottom of the letter */
+.opened .front {
+    z-index: 1;
+}
+
+/* --- 5. UI & Decorations --- */
+
+.music-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 100;
+    background: white;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.heart-falling {
+    position: fixed;
+    top: -20px;
+    background-color: #ff4d6d;
+    height: 15px;
+    width: 15px;
+    transform: rotate(-45deg);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.heart-falling::before, .heart-falling::after {
+    content: "";
+    background-color: #ff4d6d;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    position: absolute;
+}
+.heart-falling::before { top: -8px; left: 0; }
+.heart-falling::after { left: 8px; top: 0; }
+
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(-45deg); opacity: 0; }
+}
+
+/* --- 6. Mobile Optimization --- */
+@media (max-width: 480px) {
+    .container {
+        margin-top: 80px; /* More space for the letter on small screens */
+    }
+
+    .envelope-wrapper {
+        width: 260px;
+        height: 170px;
+    }
+
+    .flap {
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-top-width: 90px;
+    }
+
+    .front {
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-bottom-width: 85px;
+        border-top-width: 85px;
+    }
+
+    .letter {
+        width: 240px;
+        height: 150px;
+    }
+
+    .opened .letter {
+        /* Adjusted lift for mobile to keep the top of the paper on-screen */
+        transform: translate(-50%, -110px);
+    }
+}
