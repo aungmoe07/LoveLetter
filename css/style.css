@@ -269,3 +269,41 @@ body {
 .visible {
     opacity: 1 !important;
 }
+
+#photo-scatter-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Allows clicking the envelope through the images */
+    z-index: 5; /* Sit between the falling hearts and the envelope */
+}
+
+.scatter-photo {
+    position: absolute;
+    width: 120px; /* Adjust size for mobile */
+    height: auto;
+    padding: 8px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: scale(0.5);
+    /* This ensures it fades slowly (0.5s) when 'show' is removed */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scatter-photo.show {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation));
+}
+
+@media (max-width: 480px) {
+    .scatter-photo {
+        width: 80px; /* Smaller photos for small screens */
+    }
+}

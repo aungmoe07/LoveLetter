@@ -19,14 +19,92 @@ const messages = [
     "ငယ် သူများတွေနဲ့ အပြင်လေးတွေသွားတိုင်း...ကိုနဲ့သာဆိုရင် ဘာလေးတွေလုပ်ဖြစ်လောက်မလဲ ဆိုပြီး မျက်ရည်လေးတွေ ကျမိတယ်ရယ်..❤️‍🩹",
     "အားကျစရာလေးတွေပေါ့နော်..❤️‍🩹",
     "အခုလို ရပ်ဝေး‌ရောက်နေတဲ့ အခြေအနေလေးကြောင့်..❤️‍🩹",
+    "အရှေ့ကို အများကြီး မပြောချင်ပေမဲ့..❤️‍🩹",
     "ဖြစ်နိုင်မယ်ဆိုရင်လေ..💞",
-    "ကိုယ်တို့ရဲ့ 'ကံ' ကြောင့် အနာဂတ်လေးမှာ မတွေ့ခင်အထိ..💕",
-    "အခု ဆက်သွယ်နေကြတဲ့ Digital World လေးမှာ အဆက်အသွယ်လေး ဆက်ရှိသွားချင်ပါတယ်ရယ်...💓",
-    "သူများတွေလို Physical လက်ဆောင်လေးတွေ မပေနိုင်ပေမဲ့..❤️‍🩹",
-    "ကိုယ်လုပ်ထားတဲ့ Digital Letter လေးနဲ့ 💌",
-    "ကိုယ့်နှလုံးသားထဲက မေတ္တာလက်ဆောင်လေးတွေတော့ လက်ခံပေးပါငယ်...💝",
-    "ချစ်တယ်ငယ်..၊ များရီးချစ်တယ်..😘💗"
+    "ကိုယ်တို့ရဲ့ 'ကံ' ဆိုလေးကြောင့် အနာဂတ်က ကာလတစ်ခုမှာ မတွေ့ခင်အထိ..💕",
+    "အခု ဆက်သွယ်နေကြတဲ့ Digital World လေးမှာလေ..💓",
+    "အဆက်အသွယ်လေး ဆက်ရှိသွားချင်ပါတယ်ရယ်...💓",
+    "ကိုလေ သူများတွေလို Physical လက်ဆောင်လေးတွေ မပေနိုင်ပေမဲ့..❤️‍🩹",
+    "ကိုယ်လုပ်ထားတဲ့ ဒီက Digital Letter လေးနဲ့ 💌",
+    "ကိုယ့်နှလုံးသားထဲက မေတ္တာလက်ဆောင်လေးကိုတော့ လက်ခံပေးပါငယ်...💝",
+    "ချစ်တယ်ငယ်..၊ များရီးချစ်တယ်နော်..😘💗"
 ];
+
+// Add your image paths here
+const photoSources = [
+    "../img/img1.jpg",
+    "../img/img2.jpg",
+    "../img/img3.jpg",
+    "../img/img4.jpg",
+    "../img/img5.jpg",
+    "../img/img6.jpg",
+    "../img/img7.jpg",
+    "../img/img8.jpg",
+    "../img/img9.jpg",
+    "../img/img10.jpg",
+    "../img/img11.jpg",
+    "../img/img12.jpg",
+    "../img/img13.jpg",
+    "../img/img14.jpg",
+    "../img/img15.jpg",
+    "../img/img16.jpg",
+    "../img/img17.jpg",
+    "../img/img18.jpg",
+
+];
+
+// Track the current image number
+let imageCounter = 1;
+const totalImages = 18;
+
+function spawnRandomPhoto() {
+    if (imageCounter > totalImages) return; // Stop if we run out of images
+
+    const container = document.getElementById('photo-scatter-container');
+    const photo = document.createElement('img');
+    
+    // Set source in order: img1.jpg, img2.jpg, etc.
+    photo.src = `img/img${imageCounter}.jpg`;
+    photo.classList.add('scatter-photo');
+
+    // Logic to find a safe spot (avoiding the center)
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const deadZoneWidth = 320; 
+    const deadZoneHeight = 450; 
+    
+    let x, y;
+    let isSafe = false;
+
+    while (!isSafe) {
+        // Randomly pick coordinates
+        x = Math.random() * (screenWidth - 100);
+        y = Math.random() * (screenHeight - 100);
+
+        const centerX = screenWidth / 2;
+        const centerY = screenHeight / 2;
+
+        // Check if the spot is outside the envelope/letter area
+        if (Math.abs(x - centerX) > deadZoneWidth / 2 || Math.abs(y - centerY) > deadZoneHeight / 2) {
+            isSafe = true;
+        }
+    }
+
+    photo.style.left = x + "px";
+    photo.style.top = y + "px";
+
+    // Random tilt for that "scattered" look
+    const tilt = (Math.random() * 40) - 20;
+    photo.style.setProperty('--rotation', `${tilt}deg`);
+
+    container.appendChild(photo);
+
+    // Fade in
+    setTimeout(() => photo.classList.add('show'), 50);
+
+    // Increase counter for the next click
+    imageCounter++;
+}
 
 envelope.addEventListener('click', () => {
     if (step === 0) {
@@ -48,6 +126,7 @@ envelope.addEventListener('click', () => {
     } else if (step === 2) {
         // Step 3: Change text logic
         if (messageIndex < messages.length - 1) {
+            spawnRandomPhoto();
             messageIndex++;
             if (messageIndex === messages.length - 1) {
                 nextHint.innerText = "Close ✖";
@@ -64,6 +143,17 @@ envelope.addEventListener('click', () => {
             clickHint.classList.remove('hidden');
             nextHint.innerText = "Next ➔";
             
+            const allPhotos = document.querySelectorAll('.scatter-photo');
+            allPhotos.forEach(photo => {
+                photo.classList.remove('show'); // This triggers the CSS fade out
+                
+                // Remove the actual elements after they have faded (0.5s match CSS)
+                setTimeout(() => {
+                    photo.remove();
+                    imageCounter = 1;
+                }, 500);
+            });
+
             setTimeout(() => {
                 messageIndex = 0;
                 letterText.innerText = messages[0];
