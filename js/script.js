@@ -1,25 +1,50 @@
 const envelope = document.getElementById('envelope');
+const letterText = document.getElementById('mainMessage');
 const audio = document.getElementById('myAudio');
-const musicBtn = document.getElementById('music-control');
-const daysCounter = document.getElementById('daysCounter');
 
 let step = 0;
+let messageIndex = 0;
 
-// 1. CLICK LOGIC (Open -> Pull -> Reset)
+const messages = [
+    "",
+    "မင်းနဲ့အတူရှိရတဲ့ ၃ နှစ်နဲ့ ၄ လဟာ ငါ့အတွက် အရမ်းတန်ဖိုးရှိပါတယ်။",
+    "example1",
+    "example2",
+    "example3 (This is the last one!)"
+];
+
 envelope.addEventListener('click', () => {
     if (step === 0) {
-        // Step 1: Open Flap
+        // STEP 1: Open Flap
         envelope.classList.add('open');
-        audio.play().catch(e => console.log("Audio needs user interaction first."));
+        if (audio) audio.play();
         step++;
     } else if (step === 1) {
-        // Step 2: Pull out the Letter
+        // STEP 2: Pull out the Letter
         envelope.classList.add('opened');
         step++;
-    } else {
-        // Step 3: Reset to start over
-        envelope.classList.remove('open', 'opened');
-        step = 0;
+    } else if (step === 2) {
+        // STEP 3: Change text OR Close
+        if (messageIndex < messages.length - 1) {
+            // If there are more messages, show the next one
+            messageIndex++;
+            
+            letterText.style.opacity = 0;
+            setTimeout(() => {
+                letterText.innerText = messages[messageIndex];
+                letterText.style.opacity = 1;
+            }, 300);
+        } else {
+            // If it was the last message, RESET everything
+            envelope.classList.remove('open', 'opened');
+            
+            // Optional: Reset message to the first one for next time
+            setTimeout(() => {
+                messageIndex = 0;
+                letterText.innerText = messages[0];
+                step = 0; 
+            }, 500); // Wait for the "closing" animation to finish
+        }
     }
 });
 

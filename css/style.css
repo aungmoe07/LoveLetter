@@ -81,7 +81,6 @@ body {
 }
 
 .text h3 {
-    font-family: 'Dancing Script', cursive;
     font-size: 24px;
     color: #d63384;
     margin: 0 0 10px 0;
@@ -92,6 +91,7 @@ body {
     line-height: 1.4;
     color: #444;
     margin: 5px 0;
+    transition: opacity 0.3s ease;
 }
 
 /* --- 4. Interactive States --- */
