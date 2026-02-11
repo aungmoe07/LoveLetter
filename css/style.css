@@ -190,6 +190,7 @@ body {
 @media (max-width: 480px) {
     .container {
         margin-top: 80px; /* More space for the letter on small screens */
+        margin-bottom: 80px; /* More space for the letter on small screens */
     }
 
     .envelope-wrapper {
