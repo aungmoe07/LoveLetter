@@ -1,100 +1,58 @@
 const envelope = document.getElementById('envelope');
 const letterText = document.getElementById('mainMessage');
+const clickHint = document.getElementById('click-hint');
+const nextHint = document.getElementById('next-hint');
 const audio = document.getElementById('myAudio');
 
 let step = 0;
 let messageIndex = 0;
 
 const messages = [
-    "",
-    "မင်းနဲ့အတူရှိရတဲ့ ၃ နှစ်နဲ့ ၄ လဟာ ငါ့အတွက် အရမ်းတန်ဖိုးရှိပါတယ်။",
+    "Happy 3 years and 4 months anniversay ပါငယ်ရေ..❤️",
     "example1",
     "example2",
-    "example3 (This is the last one!)"
+    "example3 (The End)"
 ];
 
 envelope.addEventListener('click', () => {
     if (step === 0) {
-        // STEP 1: Open Flap
+        // Step 1: Open
         envelope.classList.add('open');
+        clickHint.classList.add('hidden'); // Hide "Click To Open"
         if (audio) audio.play();
         step++;
     } else if (step === 1) {
-        // STEP 2: Pull out the Letter
+        // Step 2: Pull out
         envelope.classList.add('opened');
+        nextHint.classList.add('visible'); // Show "Next"
         step++;
     } else if (step === 2) {
-        // STEP 3: Change text OR Close
+        // Step 3: Change text
         if (messageIndex < messages.length - 1) {
-            // If there are more messages, show the next one
             messageIndex++;
             
+            // If it's the last message, change "Next" to "Close"
+            if (messageIndex === messages.length - 1) {
+                nextHint.innerText = "Close ✖";
+            }
+
             letterText.style.opacity = 0;
             setTimeout(() => {
                 letterText.innerText = messages[messageIndex];
                 letterText.style.opacity = 1;
             }, 300);
         } else {
-            // If it was the last message, RESET everything
+            // Step 4: Reset
             envelope.classList.remove('open', 'opened');
+            nextHint.classList.remove('visible');
+            clickHint.classList.remove('hidden');
+            nextHint.innerText = "Next ➔"; // Reset button text
             
-            // Optional: Reset message to the first one for next time
             setTimeout(() => {
                 messageIndex = 0;
                 letterText.innerText = messages[0];
-                step = 0; 
-            }, 500); // Wait for the "closing" animation to finish
+                step = 0;
+            }, 500);
         }
     }
 });
-
-// 2. MUSIC TOGGLE LOGIC
-musicBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents clicking the button from triggering the envelope
-    if (audio.paused) {
-        audio.play();
-        musicBtn.innerHTML = "🎵";
-    } else {
-        audio.pause();
-        musicBtn.innerHTML = "🔇";
-    }
-});
-
-// 3. DAYS TOGETHER CALCULATOR
-function calculateDays() {
-    // CHANGE THIS DATE to your actual anniversary (Year, Month - 1, Day)
-    // Note: Months in JS are 0-indexed (January is 0, October is 9)
-    const startDate = new Date(2022, 9, 11); // Example: Oct 11, 2022
-    const today = new Date();
-    
-    const timeDiff = today - startDate;
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    
-    daysCounter.innerText = `${days} Days of Loving You`;
-}
-
-calculateDays();
-
-// 4. FALLING HEARTS GENERATOR
-function createHeart() {
-    const heart = document.createElement('div');
-    heart.classList.add('heart-falling');
-    
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-    
-    // Randomize size slightly
-    const size = (Math.random() * 10 + 10) + "px";
-    heart.style.width = size;
-    heart.style.height = size;
-
-    document.body.appendChild(heart);
-
-    // Clean up heart after animation ends
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
-}
-
-// Create a heart every 300ms
-setInterval(createHeart, 300);

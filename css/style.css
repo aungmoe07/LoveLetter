@@ -189,3 +189,46 @@ body {
         transform: translate(-50%, -110px);
     }
 }
+
+/* "Click To Open" Hint */
+#click-hint {
+    position: absolute;
+    top: -40px;
+    width: 100%;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    color: #ff4d6d;
+    font-weight: bold;
+    letter-spacing: 1px;
+    animation: bounce 2s infinite;
+    transition: opacity 0.3s;
+}
+
+/* "Next" Hint inside the letter */
+#next-hint {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    color: #ff4d6d;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    opacity: 0; /* Hidden until letter is opened */
+    transition: opacity 0.5s;
+}
+
+/* Animation for the top hint */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+/* Control visibility in JS by toggling these */
+.hidden {
+    opacity: 0 !important;
+}
+
+.visible {
+    opacity: 1 !important;
+}
