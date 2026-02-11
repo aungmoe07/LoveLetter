@@ -189,8 +189,11 @@ body {
 /* --- 6. Mobile Optimization --- */
 @media (max-width: 480px) {
     .container {
-        margin-top: 80px; /* More space for the letter on small screens */
-        margin-bottom: 80px; /* More space for the letter on small screens */
+            /* Set top and bottom margin to 80px as requested */
+            margin-top: 80px;
+            margin-bottom: 80px;
+            /* Ensure container doesn't cut off shadows */
+            padding: 10px;
     }
 
     .envelope-wrapper {
@@ -212,13 +215,15 @@ body {
     }
 
     .letter {
-        width: 240px;
-        height: 150px;
+        width: 250px;
+        min-height: 160px; /* Minimum height for small screens */
+        height: auto; /* Let it grow with text */
     }
 
     .opened .letter {
         /* Adjusted lift for mobile to keep the top of the paper on-screen */
-        transform: translate(-50%, -110px);
+        
+        transform: translate(-50%, -120px);
     }
 }
 
