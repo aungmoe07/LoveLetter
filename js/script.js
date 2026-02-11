@@ -62,25 +62,28 @@ function createHeart() {
     const heart = document.createElement('div');
     heart.classList.add('heart');
     
-    // Randomize horizontal position (0 to 100% of screen width)
-    heart.style.left = Math.random() * 100 + "vw";
+    // Use Math.floor and innerWidth for better mobile compatibility
+    const randomLeft = Math.floor(Math.random() * window.innerWidth);
+    heart.style.left = randomLeft + "px";
     
-    // Randomize fall duration (between 3 and 6 seconds)
+    // Random duration for variety
     const duration = Math.random() * 3 + 3;
     heart.style.animation = `fall ${duration}s linear forwards`;
     
-    // Randomize size slightly for depth
-    const sizeScale = Math.random() * 0.8 + 0.5;
-    heart.style.transform = `rotate(-45deg) scale(${sizeScale})`;
-    
-    // Add to body
+    // Random size scale
+    const size = Math.random() * 0.8 + 0.5;
+    heart.style.transform = `rotate(-45deg) scale(${size})`;
+
     document.body.appendChild(heart);
 
-    // Remove heart from memory after it finishes falling
+    // Clean up
     setTimeout(() => {
         heart.remove();
     }, duration * 1000);
 }
+
+// Start generating
+setInterval(createHeart, 400); // Slightly slower rate for better mobile performance
 
 // Start the heart rain!
 setInterval(createHeart, 300);
