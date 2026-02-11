@@ -9,7 +9,7 @@ let messageIndex = 0;
 
 const messages = [
     "Happy 3 years and 4 months anniversay ပါငယ်ရေ..❤️",
-    "example1",
+    "",
     "example2",
     "example3 (The End)"
 ];
@@ -56,3 +56,30 @@ envelope.addEventListener('click', () => {
         }
     }
 });
+
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    
+    // Randomize horizontal position (0 to 100% of screen width)
+    heart.style.left = Math.random() * 100 + "vw";
+    
+    // Randomize fall duration (between 3 and 6 seconds)
+    const duration = Math.random() * 3 + 3;
+    heart.style.animation = `fall ${duration}s linear forwards`;
+    
+    // Randomize size slightly for depth
+    const sizeScale = Math.random() * 0.8 + 0.5;
+    heart.style.transform = `rotate(-45deg) scale(${sizeScale})`;
+    
+    // Add to body
+    document.body.appendChild(heart);
+
+    // Remove heart from memory after it finishes falling
+    setTimeout(() => {
+        heart.remove();
+    }, duration * 1000);
+}
+
+// Start the heart rain!
+setInterval(createHeart, 300);
